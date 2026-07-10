@@ -416,6 +416,9 @@ class SendspinClient:
         self._set_identity_from_hello(client_info, active_roles=active_roles)
         if previous_info is not None and previous_info != client_info:
             self._server._signal_client_updated(self._client_id)  # noqa: SLF001
+        elif previous_info is not None:
+            # Client reconnected with unchanged hello payload
+            self._server._signal_client_reconnected(self._client_id)  # noqa: SLF001
         self._logger = logger.getChild(self._client_id)
         expected_role_ids = set(self._negotiated_roles)
 

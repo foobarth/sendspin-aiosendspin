@@ -80,6 +80,17 @@ class ClientRemovedEvent(SendspinEvent):
     client_id: str
 
 
+@dataclass
+class ClientReconnectedEvent(SendspinEvent):
+    """A previously-disconnected client reconnected.
+
+    Fired on every reconnect regardless of hello-payload changes.
+    Server-side only — not emitted by the client.
+    """
+
+    client_id: str
+
+
 @dataclass(frozen=True, slots=True)
 class ExternalStreamStartRequest:
     """Request payload for externally managed player connection on stream start."""
@@ -336,6 +347,10 @@ class SendspinServer:
     def _signal_client_updated(self, client_id: str) -> None:
         """Emit a ClientUpdatedEvent (called from SendspinClient)."""
         self._signal_event(ClientUpdatedEvent(client_id))
+
+    def _signal_client_reconnected(self, client_id: str) -> None:
+        """Emit a ClientReconnectedEvent (called from SendspinClient)."""
+        self._signal_event(ClientReconnectedEvent(client_id))
 
     async def on_client_connect(self, request: web.Request) -> web.StreamResponse:
         """Handle an incoming WebSocket connection from a Sendspin client."""
