@@ -571,6 +571,8 @@ class SendspinConnection:
         if wsock is not None and not wsock.closed:
             with suppress(Exception):
                 await wsock.close()
+        if self._last_goodbye_reason is None:
+            self._last_goodbye_reason = GoodbyeReason.CONNECTION_LOST
         await self.disconnect(retry_connection=not self._closing)
 
     async def _run_message_loop(self) -> None:

@@ -218,6 +218,8 @@ class GoodbyeReason(Enum):
     """Client is restarting and will reconnect."""
     USER_REQUEST = "user_request"
     """User explicitly requested to disconnect from this server."""
+    CONNECTION_LOST = "connection_lost"
+    """Connection was lost unexpectedly (network error, timeout, no goodbye received)."""
 
 
 # Role ID helpers for spec-compliant role negotiation

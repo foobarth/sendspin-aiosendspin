@@ -523,7 +523,7 @@ class SendspinClient:
         """Detach the current connection and apply BufferTracker reset policy."""
         self._connected = False
 
-        warm_disconnect = goodbye_reason in {None, GoodbyeReason.RESTART}
+        warm_disconnect = goodbye_reason in {None, GoodbyeReason.RESTART, GoodbyeReason.CONNECTION_LOST}
         if warm_disconnect:
             # Keep role instances alive for reconnect-aware processing, but run
             # role disconnect hooks so reconnect always preserves lifecycle order.
