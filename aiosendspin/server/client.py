@@ -414,6 +414,7 @@ class SendspinClient:
         previous_info = self._info
         previous_roles = list(self._negotiated_roles)
         self._set_identity_from_hello(client_info, active_roles=active_roles)
+        self._server._signal_client_connected(self._client_id)  # noqa: SLF001
         if previous_info is not None and previous_info != client_info:
             self._server._signal_client_updated(self._client_id)  # noqa: SLF001
         elif previous_info is not None:
@@ -536,6 +537,10 @@ class SendspinClient:
             self._roles_warm_disconnected = False
 
         self._connection = None
+
+        self._server._signal_client_disconnected(  # noqa: SLF001
+            self._client_id, goodbye_reason
+        )
 
         if goodbye_reason == GoodbyeReason.ANOTHER_SERVER:
             create_task(self._handle_takeover_disconnect())
