@@ -16,7 +16,9 @@ classifiers = [
 dependencies = [
   "aiohttp>=3.9.2",
   "mashumaro>=3.14",
+  "numpy>=2.5.1",
   "orjson>=3.10.0",
+  "pillow>=12.3.0",
   "zeroconf>=0.147",
 ]
 
